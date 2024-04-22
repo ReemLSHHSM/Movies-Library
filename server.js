@@ -28,19 +28,18 @@ app.get('/favorite',(req,res)=>{
 //handeling errors
 //404
 app.use((req,res)=>{
-    res.status(404).send({
-        status: 404,
-        responseText: "Sorry, page not found"
-    })
+    res.status(404).send(
+       
+     "Sorry, page not found :("
+    )
 })
 
 //500
 app.use((err, req, res) => {
     console.error(err.stack);
-    res.status(500).send({
-        status: 500,
-        responseText: "Sorry, something went wrong"
-    });
+    res.status(500).send(
+         "Sorry, something went wrong :|"
+    );
 });
 
 
