@@ -16,10 +16,11 @@ movie app that can check the latest movies based on categories.
 the steps to this project are
 1-download express
 2-draw wrrc for your project
-3-require express
-4-require data
-5-build request function
-6-have the server listining
+3-npm init
+4-require express
+5-require data
+6-build request function
+7-have the server listining
 ## Project Features
 <!-- What are the features included in you app -->
 1-Express.js Integration
