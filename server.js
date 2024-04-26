@@ -184,27 +184,16 @@ axios.get(url)
 //404
 app.use((req,res)=>{
     res.status(404).send(
-
-        "Sorry, page not found"
-    )
-
-    
-=======
        
      "Sorry, page not found :("
     )
-
 })
 
 //500
 app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send(
-
-        "Sorry, something went wrong"
-=======
          "Sorry, something went wrong :|"
-
     );
 });
 

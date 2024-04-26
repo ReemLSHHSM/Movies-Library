@@ -6,7 +6,7 @@ movie app that can check the latest movies based on categories.
 **Author Name**: Reem Hasan
 
 ## WRRC
-![WRRC](server.PNG)
+![WRRC](lab12.PNG)
 
 
 ## Overview
