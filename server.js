@@ -12,7 +12,7 @@ var cors = require('cors');
 
 //set port
 const port = 8080;
-const homeMovie = require('./move_data/data.json');
+const data = require('./Movie Data/data.json');
 
 //require .env
 require('dotenv').config();
@@ -199,6 +199,7 @@ app.use((err, req, res) => {
 
 
 //...............................................................................................................................
+
 
 // Start server
 app.listen(port, () => {
