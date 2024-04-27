@@ -23,9 +23,15 @@ the steps to this project are
 7-have the server listining
 ## Project Features
 <!-- What are the features included in you app -->
+*Lab11*
 1-Express.js Integration
 2-Has data movie
 3-Routes: There are two pages in the project:
    1-Home Page (/)
    2-Favorite Page (/favorite)
 4-Handles errors of type 500 and 404
+
+*Lab12*
+1-used 3rd party API to retrive data about movies
+2-searched for certain queries 
+3-used axios and promises
