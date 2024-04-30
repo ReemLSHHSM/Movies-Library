@@ -35,3 +35,7 @@ the steps to this project are
 1-used 3rd party API to retrive data about movies
 2-searched for certain queries 
 3-used axios and promises
+
+*Lab13*
+1-added data about movies to the data base
+2-retrieved this data 
