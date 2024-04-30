@@ -11,13 +11,36 @@ const axios = require('axios');
 var cors = require('cors');
 
 //set port
+
+const port =process.env.PORT || 5000;
+//require data
+const data = require('./Movie_Data/data.json');
+=======
 const port = 8080;
 const data = require('./Movie Data/data.json');
 
+
 //require .env
 require('dotenv').config();
+
+//require api_key
 const apiKey = process.env.API_KEY;
+
+//use cors
 app.use(cors())
+
+//require body-parser
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+//require pg
+const {Client}=require('pg');
+
+//url of database i want to connect with
+const url = process.env.URL;
+const client=new Client(url);
 //..........................................................................................................................
 
 //Lab11
@@ -85,7 +108,7 @@ function handelTrending(req, res) {
 }
 
 
-//***************************************************************** */
+//***************************************************************** 
 //search
 app.get("/search", handelSearch);
 ///search: Search for a movie name
@@ -116,7 +139,7 @@ axios.get(url)
         });
 }
 
-//************************************************************************** */
+//************************************************************************** 
 
 //Popular
 
@@ -148,7 +171,7 @@ function popularHandeler(req,res){
         });
 }
     
-//********************************************************* */
+//********************************************************* 
 //Movie upcoming
 
 app.get("/upcoming", handelupComing);
@@ -179,6 +202,61 @@ axios.get(url)
         });
 }
 
+
+
+
+//...............................................................................................................................
+
+//Lab13: set up your database and read and save data to it
+
+//routs
+app.post('/addMovies',(req,res)=>{
+    console.log(req.body);
+    //const id=req.body.id;
+    //const title=req.body.title;
+    //const release_date=req.body.release_date;
+    //const poster_path=req.body.poster_path;
+    //const overview=req.body.overview;
+
+    const { id, title, release_date, poster_path, overview } = req.body;//destructuring
+    let sql = `INSERT INTO movie (id, title, release_date, poster_path, overview)
+             VALUES ($1, $2, $3, $4, $5) RETURNING*;`
+    let value = [id, title, release_date, poster_path, overview]
+    client.query(sql, value)
+    .then((result) => {
+        console.log(result.rows);
+    return res.status(201).json(result.rows) })
+});
+
+//***********************************************************************************
+
+app.get('/viewmovies',(req,res)=>{
+
+    let sql = 'SELECT * FROM movie;';
+
+    client.query(sql)
+        .then((result) => {
+            return res.status(201).json(result.rows);
+        })
+})
+
+
+//connecting server to database
+client.connect().then(()=>{//make sure it is connected 
+// Start server
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+});
+})
+.catch((error)=>{
+    res.send(error);
+    res.status(500).json('Internal Server Error');
+})
+    
+
+
+
+
 //.............................................................................................................................
 //handeling errors
 //404
@@ -198,11 +276,14 @@ app.use((err, req, res) => {
 });
 
 
-//...............................................................................................................................
 
+//.......................................................................................................................................
+
+=======
 
 // Start server
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
+
 
