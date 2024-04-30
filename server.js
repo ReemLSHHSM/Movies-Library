@@ -15,10 +15,6 @@ var cors = require('cors');
 const port =process.env.PORT || 5000;
 //require data
 const data = require('./Movie_Data/data.json');
-=======
-const port = 8080;
-const data = require('./Movie Data/data.json');
-
 
 //require .env
 require('dotenv').config();
@@ -279,11 +275,5 @@ app.use((err, req, res) => {
 
 //.......................................................................................................................................
 
-=======
-
-// Start server
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
 
 
