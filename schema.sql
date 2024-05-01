@@ -1,5 +1,5 @@
 Create Table Movie(
-    id SERIAL PRIMARY KEY,
+    id int NOT NULL PRIMARY KEY,
     title VARCHAR(255),
     release_date VARCHAR(255),
     poster_path VARCHAR(255),

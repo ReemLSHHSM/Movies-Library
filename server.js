@@ -214,46 +214,122 @@ app.post('/addMovies',(req,res)=>{
     //const poster_path=req.body.poster_path;
     //const overview=req.body.overview;
 
-    const { id, title, release_date, poster_path, overview } = req.body;//destructuring
-    let sql = `INSERT INTO movie (id, title, release_date, poster_path, overview)
-             VALUES ($1, $2, $3, $4, $5) RETURNING*;`
-    let value = [id, title, release_date, poster_path, overview]
+    const {title, release_date, poster_path, overview } = req.body;//destructuring
+    let sql = `INSERT INTO movie (title, release_date, poster_path, overview)
+             VALUES ($1, $2, $3, $4) RETURNING *;` //this is called injection
+    let value = [title, release_date, poster_path, overview]
     client.query(sql, value)
     .then((result) => {
         console.log(result.rows);
     return res.status(201).json(result.rows) })
 });
 
+
+
 //***********************************************************************************
 
 app.get('/viewmovies',(req,res)=>{
 
-    let sql = 'SELECT * FROM movie;';
-
-    client.query(sql)
-        .then((result) => {
-            return res.status(201).json(result.rows);
-        })
+    const sql = `SELECT * FROM movie`
+    client.query(sql).then((result)=>{
+        const data = result.rows
+        res.json(data)
+    })
+    .catch()
 })
 
-
-//connecting server to database
-client.connect().then(()=>{//make sure it is connected 
-// Start server
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
-})
-.catch((error)=>{
-    res.send(error);
-    res.status(500).json('Internal Server Error');
-})
-    
 
 
 
 
 //.............................................................................................................................
+
+//Lab14
+
+//routs
+app.put('/update/:id',updateHandeler);
+app.delete('/delete/:id',deleteHandeler);
+app.get('/getmovie',getmovieHandeler);
+
+
+
+
+//functions
+function updateHandeler(req, res) {
+    //const id=req.params.id;
+    const {title, release_date, poster_path, overview } = req.body;
+    let ID = req.params.id;
+    const data = [title, release_date, poster_path, overview];
+    const sql = `UPDATE movie
+             SET title = $1, release_date = $2, poster_path = $3, overview = $4
+                 WHERE id = ${ID} RETURNING *;`;
+    
+
+    client.query(sql, data)
+        .then(result => {
+            console.log('Movie updated:', result.rows);
+            res.status(200).json(result.rows)
+        })
+        .catch(error => {
+            console.error('Error updating a movie:', error);
+            res.status(500).send('Error updating movie');
+        });
+}
+
+
+
+
+function deleteHandeler(req, res) {
+    const { id } = req.params;
+    const values = [id];
+    const sql = 'DELETE FROM movie WHERE id = $1';
+
+    client.query(sql, values)
+        .then(result => {
+                console.log('Movie deleted:', result.rows);
+                res.status(204).send('Deleted');
+            
+        })
+        .catch(error => {
+            console.error('Error deleting a movie:', error);
+            res.status(500).send('Error deleting movie');
+        });
+}
+
+
+
+function getmovieHandeler(req,res){
+    let id=req.params.id;
+    let values=[id];
+    let sql=`SELECT * FROM movie
+    WHERE id=$1;`
+    client.query(sql,values).then(result=>{
+        console.log(result.rows);
+        res.status(200).send(result.rows)
+    }).catch(err=>{
+        console.error('Error getting a movie:', err);
+            res.status(500).send('Error getting movie');
+ }
+    )
+}
+
+
+
+
+
+
+
+
+
+
+//.......................................................................................................................................
+//start listen when db connect 
+client.connect().then(() => {
+    // the server always listen but i want it start listen when db connect 
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+    })
+})
 //handeling errors
 //404
 app.use((req,res)=>{
@@ -270,10 +346,3 @@ app.use((err, req, res) => {
          "Sorry, something went wrong :|"
     );
 });
-
-
-
-//.......................................................................................................................................
-
-
-
