@@ -297,7 +297,7 @@ function deleteHandeler(req, res) {
 }
 
 
-
+//get movie
 function getmovieHandeler(req,res){
     let id=req.params.id;
     let values=[id];
