@@ -252,8 +252,6 @@ app.delete('/delete/:id',deleteHandeler);
 app.get('/getmovie',getmovieHandeler);
 
 
-
-
 //functions
 function updateHandeler(req, res) {
     //const id=req.params.id;
@@ -277,8 +275,6 @@ function updateHandeler(req, res) {
 }
 
 
-
-
 function deleteHandeler(req, res) {
     const { id } = req.params;
     const values = [id];
@@ -296,7 +292,6 @@ function deleteHandeler(req, res) {
         });
 }
 
-
 //get movie
 function getmovieHandeler(req,res){
     let id=req.params.id;
@@ -312,13 +307,6 @@ function getmovieHandeler(req,res){
  }
     )
 }
-
-
-
-
-
-
-
 
 
 
