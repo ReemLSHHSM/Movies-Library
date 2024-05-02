@@ -214,21 +214,20 @@ app.post('/addMovies',(req,res)=>{
     //const poster_path=req.body.poster_path;
     //const overview=req.body.overview;
 
-    const {title, release_date, poster_path, overview } = req.body;//destructuring
-    let sql = `INSERT INTO movie (title, release_date, poster_path, overview)
-             VALUES ($1, $2, $3, $4) RETURNING *;` //this is called injection
-    let value = [title, release_date, poster_path, overview]
+    const { id, title, release_date, poster_path, overview } = req.body;//destructuring
+    let sql = `INSERT INTO movie (id, title, release_date, poster_path, overview)
+             VALUES ($1, $2, $3, $4, $5) RETURNING*;`
+    let value = [id, title, release_date, poster_path, overview]
     client.query(sql, value)
     .then((result) => {
         console.log(result.rows);
     return res.status(201).json(result.rows) })
 });
 
-
-
 //***********************************************************************************
 
 app.get('/viewmovies',(req,res)=>{
+
 
     const sql = `SELECT * FROM movie`
     client.query(sql).then((result)=>{
@@ -318,6 +317,7 @@ client.connect().then(() => {
         console.log(`Example app listening on port ${port}`)
     })
 })
+
 //handeling errors
 //404
 app.use((req,res)=>{
@@ -334,3 +334,10 @@ app.use((err, req, res) => {
          "Sorry, something went wrong :|"
     );
 });
+
+
+
+//.......................................................................................................................................
+
+
+
